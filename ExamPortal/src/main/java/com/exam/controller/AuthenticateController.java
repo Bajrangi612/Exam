@@ -3,6 +3,7 @@ package com.exam.controller;
 import com.exam.configuration.JwtUtils;
 import com.exam.domain.JwtRequest;
 import com.exam.domain.JwtResponse;
+import com.exam.domain.Users;
 import com.exam.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +12,12 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
+@CrossOrigin("*")
 public class AuthenticateController {
     @Autowired
     AuthenticationManager authenticationManager;
@@ -48,5 +50,10 @@ public class AuthenticateController {
             e.printStackTrace();
             throw new Exception("Invalid credential" +e.getMessage());
         }
+    }
+//   todo: return the details of current user
+    @GetMapping("/current-user")
+    public Users  getCurrentUser(Principal principal){
+        return (Users) userDetailsService.loadUserByUsername(principal.getName());
     }
 }
