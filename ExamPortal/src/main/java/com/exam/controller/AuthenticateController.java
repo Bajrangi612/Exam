@@ -23,17 +23,7 @@ public class AuthenticateController {
     private UserDetailsServiceImpl userDetailsService;
     @Autowired
     private JwtUtils jwtUtils;
-    private void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken( username,password));
-        }catch (DisabledException disabledException){
-            disabledException.printStackTrace();
-            throw new Exception("USER DISABLED");
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new Exception("Invalid credential" +e.getMessage());
-        }
-    }
+
     @PostMapping("/generate-token")
     public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
         try {
@@ -47,5 +37,16 @@ public class AuthenticateController {
        UserDetails userDetails =  userDetailsService.loadUserByUsername(jwtRequest.getUsername());
        String token =  jwtUtils.generateToken(userDetails);
       return ResponseEntity.ok(new JwtResponse(token));
+    }
+    private void authenticate(String username, String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken( username,password));
+        }catch (DisabledException disabledException){
+            disabledException.printStackTrace();
+            throw new Exception("USER DISABLED");
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("Invalid credential" +e.getMessage());
+        }
     }
 }
