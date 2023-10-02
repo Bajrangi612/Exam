@@ -11,20 +11,20 @@ import java.util.*;
 
 @Entity
 @Data
-public class Users  implements UserDetails {
+public class Users implements UserDetails {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private  Long userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
-    private boolean enabled = true ;
+    private boolean enabled = true;
     private String profile;
-
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "users")
+    private String gender;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
     @JsonIgnore
     private List<UserRole> userRoles = new ArrayList<>();
 
@@ -37,7 +37,6 @@ public class Users  implements UserDetails {
         });
         return set;
     }
-
 
 
     @Override

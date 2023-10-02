@@ -35,6 +35,7 @@ public class AuthenticateController {
             throw new Exception("USER NOT FOUND !!");
         }catch (Exception e){
             e.printStackTrace();
+            throw new Exception("Invalid credential" +e.getMessage());
         }
        UserDetails userDetails =  userDetailsService.loadUserByUsername(jwtRequest.getUsername());
        String token =  jwtUtils.generateToken(userDetails);

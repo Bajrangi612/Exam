@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +24,10 @@ public class UserServiceImpl implements UserService {
     private UsersRepository usersRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
     private static final Logger log = LogManager.getLogger(UserServiceImpl.class);
+
 
 
 
@@ -34,8 +38,8 @@ public class UserServiceImpl implements UserService {
         try {
             users1 = usersRepository.findByUsername(users.getUsername());
             if (users1 != null) {
-                log.info("User Already Exist !!");
-                return ResponseDomain.badRequest("User Already Exist !!");
+                log.info("UserName Already Exist !!");
+                return ResponseDomain.badRequest("UserName Already Exist !!");
             } else {
                 if (!userRoleList.isEmpty()) {
                 for (UserRole role : userRoleList) {
@@ -48,6 +52,7 @@ public class UserServiceImpl implements UserService {
                 }
 //                users.setUserRoles(userRoleList);
                 users.getUserRoles().addAll(userRoleList);
+                users.setPassword(passwordEncoder.encode(users.getPassword()));
                 users1 = usersRepository.save(users);
             }
             log.info("Exit ::: UserServiceImpl ::: create user :::  user created ");
@@ -57,8 +62,6 @@ public class UserServiceImpl implements UserService {
             log.error(e.getMessage());
             return ResponseDomain.badRequest("Something went wrong !!");
         }
-
-
     }
 
     @Override
