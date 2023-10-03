@@ -2,10 +2,7 @@ package com.exam.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -15,5 +12,7 @@ public class Options {
     private Long questionId;
     private String option;
     private String optionImage;
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Question question;
 
 }

@@ -17,7 +17,7 @@ public class Question {
     private String answer;
     @ManyToOne(fetch = FetchType.EAGER)
     private Quiz quiz;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "option",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Options> optionsList;
 
 }
