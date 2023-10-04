@@ -1,8 +1,12 @@
 package com.exam.service.impl;
 
+import com.exam.controller.UserController;
 import com.exam.domain.Category;
 import com.exam.response.CategoryRepository;
+import com.exam.response.ResponseDomain;
 import com.exam.service.CategoryService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
+    private static final Logger log = LogManager.getLogger(CategoryServiceImpl.class);
+
     @Autowired
     private CategoryRepository categoryRepository;
     @Override
@@ -17,9 +23,12 @@ public class CategoryServiceImpl implements CategoryService {
         Category category1 =  categoryRepository.findByCategoryNameIgnoreCase(category.getCategoryName());
         if(category1== null){
             categoryRepository.save(category);
-            return new ResponseEntity<>("Category added successfully", HttpStatus.OK);
+            log.info("Category added successfully");
+
+            return ResponseDomain.successResponse("Category Created Successfully..");
         }else{
-            return new ResponseEntity<>("Category already exist with same name", HttpStatus.BAD_REQUEST);
+            log.error("Category already exist with same name");
+            return ResponseDomain.badRequest("Category already exist with same name");
         }
     }
 
@@ -34,8 +43,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public ResponseEntity<?> deleteCategory(Long categoryId) {
+        categoryRepository.deleteById(categoryId);
+        return ResponseDomain.successResponse("Category Deleted Successfully..");
+    }
+
+    @Override
     public ResponseEntity<?> updateCategory(Category category) {
         categoryRepository.save(category);
-        return new ResponseEntity<>("Category added successfully", HttpStatus.OK);
+        return ResponseDomain.successResponse("Category updated Successfully..");
     }
 }

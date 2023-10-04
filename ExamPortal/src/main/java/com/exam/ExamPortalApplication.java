@@ -4,6 +4,9 @@ import com.exam.domain.Role;
 import com.exam.domain.UserRole;
 import com.exam.domain.Users;
 import com.exam.service.UserService;
+import com.exam.service.impl.CategoryServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,10 +17,15 @@ import java.util.List;
 
 @SpringBootApplication
 public class ExamPortalApplication {
+	private static final Logger log = LogManager.getLogger(ExamPortalApplication.class);
+
 
 
 	public static void main(String[] args) {
 		SpringApplication.run(ExamPortalApplication.class, args);
+		log.info("----------------------------------------------");
+		log.info("|              Exam Portal Started            |");
+		log.info("----------------------------------------------");
 	}
 
 //	@Override

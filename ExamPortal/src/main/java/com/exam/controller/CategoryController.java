@@ -14,7 +14,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping("/save")
+    @PostMapping("/")
     public ResponseEntity<?> saveCategory(@RequestBody Category category) {
         return categoryService.saveCategory(category);
     }
@@ -32,5 +32,9 @@ public class CategoryController {
     @PutMapping("/update")
     public ResponseEntity<?> updateCategory(@RequestBody Category category) {
         return categoryService.updateCategory(category);
+    }
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<?> deleteCategory(@PathVariable Long categoryId) {
+        return categoryService.deleteCategory(categoryId);
     }
 }
