@@ -13,7 +13,7 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long quizId;
     private String quizName;
-    private Boolean isActive;
+    private Boolean isActive = false;
     private String description;
     private Long noOfQuestion;
     private Double totalMarks;

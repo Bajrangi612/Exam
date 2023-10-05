@@ -34,22 +34,29 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public ResponseEntity<?> getAllCategories() {
+        log.info("CategoryServiceImpl:::getAllCategories ::: getting all categories");
         return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> getCategory(Long categoryId) {
+        log.info("CategoryServiceImpl:::getCategories ::: getting categories for category id ::: "+categoryId);
+
         return new ResponseEntity<>(categoryRepository.findById(categoryId).get(), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> deleteCategory(Long categoryId) {
+        log.info("CategoryServiceImpl:::deleteCategory ::: deleting categories for category id ::: "+categoryId);
+
         categoryRepository.deleteById(categoryId);
         return ResponseDomain.successResponse("Category Deleted Successfully..");
     }
 
     @Override
     public ResponseEntity<?> updateCategory(Category category) {
+        log.info("CategoryServiceImpl:::updateCategory ::: updating categories for category id ::: "+category.getCategoryId());
+
         categoryRepository.save(category);
         return ResponseDomain.successResponse("Category updated Successfully..");
     }

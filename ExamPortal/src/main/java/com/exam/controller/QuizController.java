@@ -28,6 +28,10 @@ public class QuizController {
     public ResponseEntity<?> getQuizzesByCategory(@PathVariable Long categoryId) {
         return quizService.getQuizzesByCategory(categoryId);
     }
+    @GetMapping("/")
+    public ResponseEntity<?> getQuizzesByCategory() {
+        return quizService.getQuizzes();
+    }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateQuiz(@RequestBody Quiz quiz) {
