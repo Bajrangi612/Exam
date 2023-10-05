@@ -29,7 +29,7 @@ public class CategoryController {
         return categoryService.getCategory(categoryId);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/")
     public ResponseEntity<?> updateCategory(@RequestBody Category category) {
         return categoryService.updateCategory(category);
     }
