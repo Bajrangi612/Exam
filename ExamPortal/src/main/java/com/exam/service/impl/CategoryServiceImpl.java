@@ -20,6 +20,7 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
     @Override
     public ResponseEntity<?> saveCategory(Category category) {
+
         Category category1 =  categoryRepository.findByCategoryNameIgnoreCase(category.getCategoryName());
         if(category1== null){
             categoryRepository.save(category);
