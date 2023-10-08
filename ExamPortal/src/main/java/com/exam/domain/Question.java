@@ -1,8 +1,10 @@
 package com.exam.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,9 +17,11 @@ public class Question {
     private String content;
     private String image;
     private String answer;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
+    @JoinColumn(name = "quiz_id")
     private Quiz quiz;
-    @OneToMany(mappedBy = "option",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<Options> optionsList;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<Options> options = new ArrayList<>();
 
 }

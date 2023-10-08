@@ -35,7 +35,6 @@ public class QuizServiceImpl implements QuizService {
             log.error(e.getMessage(),e);
             return ResponseDomain.badRequest("Something went wrong");
         }
-
     }
 
     @Override
@@ -56,12 +55,15 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public ResponseEntity<?> getQuiz(Long quizId) {
+        System.out.println("");
         return new ResponseEntity<>(quizRepository.findById(quizId).get(), HttpStatus.OK);
 
     }
 
     @Override
     public ResponseEntity<?> updateQuiz(Quiz quiz) {
+        if(quiz.getQuizId() == null)
+            return ResponseDomain.badRequest("quiz id not present");
         quizRepository.save(quiz);
         return ResponseDomain.successResponse("Quiz updated successfully");
     }

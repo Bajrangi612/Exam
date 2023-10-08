@@ -37,6 +37,11 @@ public class QuestionController {
     public ResponseEntity<?> saveQuestion(@PathVariable Long  qid) {
         return questionService.getAllQuestionsByQuizId(qid);
     }
+
+    @GetMapping("/quiz/limited/{qid}")
+    public ResponseEntity<?> getLimitedQuestionsByQuizId(@PathVariable Long  qid) {
+        return questionService.getLimitedQuestionsByQuizId(qid);
+    }
 //
 //    @PostMapping("/")
 //    public ResponseEntity<?> saveQuestion(@RequestBody Question question) {

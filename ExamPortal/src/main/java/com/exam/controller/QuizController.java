@@ -24,7 +24,7 @@ public class QuizController {
         return quizService.getQuiz(quizId);
     }
 
-    @GetMapping("/{categoryId}")
+    @GetMapping("/cat/{categoryId}")
     public ResponseEntity<?> getQuizzesByCategory(@PathVariable Long categoryId) {
         return quizService.getQuizzesByCategory(categoryId);
     }
@@ -34,7 +34,7 @@ public class QuizController {
         return quizService.getQuizzes();
     }
 
-    @PutMapping("/update")
+    @PutMapping("/")
     public ResponseEntity<?> updateQuiz(@RequestBody Quiz quiz) {
         return quizService.updateQuiz(quiz);
     }
