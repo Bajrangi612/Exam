@@ -10,4 +10,6 @@ public interface QuizService {
     public ResponseEntity<?> getQuiz(Long quizId);
     public ResponseEntity<?> updateQuiz(Quiz quiz);
     public ResponseEntity<?> deleteQuiz(Long quizId);
+    public ResponseEntity<?> getAllActiveQuizzes();
+    public ResponseEntity<?> getAllActiveQuizzesByCategory(Long catId);
 }

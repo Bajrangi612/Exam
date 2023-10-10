@@ -73,9 +73,9 @@ public class QuestionServiceImpl implements QuestionService {
             Quiz quiz = quizRepository.findById(quizId).get();
             if (quiz != null) {
                 questions = quiz.getQuestions();
-//            Collections.shuffle(questions);
-//            if(questions.size()>quiz.getNoOfQuestion()+1)
-//            questions = questions.subList(0, (int) (quiz.getNoOfQuestion() + 1));
+            Collections.shuffle(questions);
+            if(questions.size()>quiz.getNoOfQuestion())
+            questions = questions.subList(0, (int) (quiz.getNoOfQuestion() +0));
             }
         }catch (Exception e){
             e.printStackTrace();

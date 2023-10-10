@@ -17,6 +17,7 @@ public class QuizController {
     @PostMapping("/")
     public ResponseEntity<?> saveQuiz(@RequestBody Quiz quiz) {
         return quizService.saveQuiz(quiz);
+
     }
 
     @GetMapping("/{quizId}")
@@ -28,10 +29,17 @@ public class QuizController {
     public ResponseEntity<?> getQuizzesByCategory(@PathVariable Long categoryId) {
         return quizService.getQuizzesByCategory(categoryId);
     }
-
+    @GetMapping("/active/{categoryId}")
+    public ResponseEntity<?> getActiveQuizzesByCategory(@PathVariable Long categoryId) {
+        return quizService.getAllActiveQuizzesByCategory(categoryId);
+    }
     @GetMapping("/")
     public ResponseEntity<?> getQuizzes() {
         return quizService.getQuizzes();
+    }
+    @GetMapping("/active")
+    public ResponseEntity<?> getActiveQuizzes() {
+        return quizService.getAllActiveQuizzes();
     }
 
     @PutMapping("/")
