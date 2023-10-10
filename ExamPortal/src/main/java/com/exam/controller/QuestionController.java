@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/question")
 @CrossOrigin("*")
@@ -47,5 +49,10 @@ public class QuestionController {
 //    public ResponseEntity<?> saveQuestion(@RequestBody Question question) {
 //        return questionService.saveQuestion(question);
 //    }
+
+    @PostMapping("/eval")
+    public ResponseEntity<?> evaluateQuiz(@RequestBody List<Question> questionVOList){
+        return questionService.evaluateQuiz(questionVOList);
+    }
 
 }

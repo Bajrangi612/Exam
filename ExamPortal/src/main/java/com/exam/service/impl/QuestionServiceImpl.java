@@ -3,12 +3,12 @@ package com.exam.service.impl;
 import com.exam.domain.Options;
 import com.exam.domain.Question;
 import com.exam.domain.Quiz;
+import com.exam.domain.ReqVO.Result;
 import com.exam.response.OptionRepository;
 import com.exam.response.QuestionRepository;
 import com.exam.response.QuizRepository;
 import com.exam.response.ResponseDomain;
 import com.exam.service.QuestionService;
-import com.exam.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -37,7 +38,7 @@ public class QuestionServiceImpl implements QuestionService {
             question.setOptions(options);
             questionRepository.save(question);
             return ResponseDomain.successResponse("Question Added Successfully");
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseDomain.badRequest("Something went wrong");
         }
 
@@ -60,7 +61,7 @@ public class QuestionServiceImpl implements QuestionService {
 //            if(questions.size()>quiz.getNoOfQuestion()+1)
 //            questions = questions.subList(0, (int) (quiz.getNoOfQuestion() + 1));
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new ResponseEntity<>(questions, HttpStatus.OK);
@@ -73,18 +74,16 @@ public class QuestionServiceImpl implements QuestionService {
             Quiz quiz = quizRepository.findById(quizId).get();
             if (quiz != null) {
                 questions = quiz.getQuestions();
-            Collections.shuffle(questions);
-            if(questions.size()>quiz.getNoOfQuestion())
-            questions = questions.subList(0, (int) (quiz.getNoOfQuestion() +0));
+                Collections.shuffle(questions);
+                if (questions.size() > quiz.getNoOfQuestion())
+                    questions = questions.subList(0, (int) (quiz.getNoOfQuestion() + 0));
             }
-        }catch (Exception e){
+            questions.stream().forEach(f -> f.setAnswer(null));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new ResponseEntity<>(questions, HttpStatus.OK);
     }
-
-
-
 
 
     @Override
@@ -99,5 +98,43 @@ public class QuestionServiceImpl implements QuestionService {
     public ResponseEntity<?> deleteQuestion(Long questionId) {
         questionRepository.deleteById(questionId);
         return ResponseDomain.successResponse("Question deleted Successfully");
+    }
+
+    @Override
+    public ResponseEntity<?> evaluateQuiz(List<Question> questionVOList) {
+        Result result = new Result();
+
+        if (!questionVOList.isEmpty() && questionVOList.size() > 0) {
+            List<Long> ids = questionVOList.stream().map(q -> q.getQuestionId()).collect(Collectors.toList());
+            List<QuestionRepository.QuestionData> questionData = questionRepository.getQuestionDetail(ids);
+            int correctAns[] = {0};
+            int notVisited[] = {0};
+            int attemptedQuestion[] = {0};
+            questionData.stream().forEach(questionData1 -> {
+                Question question = questionVOList.stream().filter(f -> f.getQuestionId() == questionData1.getQuestionId()).findAny().orElse(null);
+                if (question != null) {
+                    if (question.getSelectedAnswer() != null && !question.getSelectedAnswer().equals("")) {
+                        if (question.getSelectedAnswer().trim().equals(questionData1.getAnswer().trim())) {
+                            correctAns[0]++;
+                            attemptedQuestion[0]++;
+                        } else {
+                            attemptedQuestion[0]++;
+                        }
+                    } else {
+                        notVisited[0]++;
+                    }
+                }
+            });
+
+            result.setFullMarks(questionVOList.get(0).getQuiz().getTotalMarks());
+            double singleQuestionMarks = result.getFullMarks() / questionVOList.size();
+            result.setTotalMarksGained(singleQuestionMarks * correctAns[0]);
+            result.setTotalNoOfQuestions(questionVOList.size());
+            result.setTotalAttempted(attemptedQuestion[0]);
+            result.setTotalCorrectAnswer(correctAns[0]);
+            result.setNotVisited(notVisited[0]);
+            result.setTotalPercentage((result.getTotalMarksGained() / result.getFullMarks()) * 100);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

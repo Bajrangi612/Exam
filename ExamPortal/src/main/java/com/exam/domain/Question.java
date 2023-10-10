@@ -15,6 +15,9 @@ public class Question {
     private Long questionId;
     @Column(length = 5000)
     private String content;
+    @Transient
+    private String selectedAnswer;
+
     private String image;
     private String answer;
     @ManyToOne
