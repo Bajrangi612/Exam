@@ -18,6 +18,7 @@ public class Quiz {
     private String description;
     private Long noOfQuestion;
     private Double totalMarks;
+    private Long totalTimeInMinute;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
