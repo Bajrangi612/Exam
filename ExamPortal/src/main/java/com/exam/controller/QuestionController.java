@@ -1,6 +1,7 @@
 package com.exam.controller;
 
 import com.exam.domain.Question;
+import com.exam.domain.ReqVO.ResultEveluateVO;
 import com.exam.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,8 +52,8 @@ public class QuestionController {
 //    }
 
     @PostMapping("/eval")
-    public ResponseEntity<?> evaluateQuiz(@RequestBody List<Question> questionVOList){
-        return questionService.evaluateQuiz(questionVOList);
+    public ResponseEntity<?> evaluateQuiz( @RequestBody ResultEveluateVO resultEveluateVO){
+        return questionService.evaluateQuiz(resultEveluateVO);
     }
 
 }

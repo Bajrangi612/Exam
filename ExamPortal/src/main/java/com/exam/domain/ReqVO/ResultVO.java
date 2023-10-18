@@ -3,7 +3,7 @@ package com.exam.domain.ReqVO;
 import lombok.Data;
 
 @Data
-public class Result {
+public class ResultVO {
     private int totalCorrectAnswer;
     private int totalNoOfQuestions;
     private double fullMarks;
