@@ -137,7 +137,7 @@ public class QuestionServiceImpl implements QuestionService {
             result.setTotalCorrectAnswer(correctAns[0]);
             result.setNotVisited(notVisited[0]);
             result.setTotalPercentage((result.getTotalMarksGained() / result.getFullMarks()) * 100);
-            saveResult(resultEveluateVO.getUserName(),resultEveluateVO.getTotalTime(),result,questionVOList);
+//            saveResult(resultEveluateVO.getUserName(),resultEveluateVO.getTotalTime(),result,questionVOList);
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -157,7 +157,7 @@ public class QuestionServiceImpl implements QuestionService {
         questionVOList1.toArray(questions);
 //       QuestionVO[] questions = (QuestionVO[]) questionVOList1.toArray();
             Result result = new Result();
-            result.setQuestionList(questions);
+//            result.setQuestionList(questions);
             result.setPercentage(resultVO.getTotalPercentage());
             result.setQuizId(questionVOList.get(0).getQuiz().getQuizId());
             result.setTotalQuestionAttempted(resultVO.getTotalAttempted());

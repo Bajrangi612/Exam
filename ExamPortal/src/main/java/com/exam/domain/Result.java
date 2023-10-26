@@ -25,5 +25,5 @@ public class Result {
     private int notVisited;
     private double percentage;
     private String totalTimeTaken;
-    private QuestionVO [] questionList;
+//    private QuestionVO [] questionList;
 }
